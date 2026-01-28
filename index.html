@@ -2,16 +2,27 @@
 <html>
 <body style="margin:0;width:100vw;height:100vh">
 
-<audio id="a" src="loud.mp3" preload="auto"></audio>
-
 <script>
-const a = document.getElementById("a");
+let audio;
 
-// chờ user gesture
-document.body.addEventListener("touchstart", () => {
-  a.volume = 1.0;
-  a.play();
-}, { once: true });
+async function playFromAPI() {
+  if (audio) return;
+
+  // gọi API (có thể là local hoặc server)
+  const res = await fetch("loud.mp3"); // hoặc /api/audio
+  const buf = await res.arrayBuffer();
+
+  const blob = new Blob([buf], { type: "audio/mpeg" });
+  const url = URL.createObjectURL(blob);
+
+  audio = new Audio(url);
+  audio.volume = 1.0;
+  audio.play();
+}
+
+// user gesture
+document.body.addEventListener("touchstart", playFromAPI, { once: true });
+document.body.addEventListener("click", playFromAPI, { once: true });
 </script>
 
 </body>
