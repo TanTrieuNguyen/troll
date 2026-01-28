@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title></title>
-</head>
-<body>
+<html>
+<body style="margin:0">
 
-<audio autoplay>
+<audio id="a" autoplay muted playsinline>
   <source src="loud.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+const a = document.getElementById("a");
+
+// Safari cho autoplay nếu muted
+a.play();
+
+// Chỉ cần 1 lần chạm bất kỳ để bật tiếng
+document.addEventListener("touchstart", () => {
+  a.muted = false;
+  a.play();
+}, { once: true });
+</script>
 
 </body>
 </html>
